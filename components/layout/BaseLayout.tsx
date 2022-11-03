@@ -1,9 +1,9 @@
 import { FunctionComponent, ReactNode } from 'react';
 import Navbar from '../navbar';
 
-interface Props {
+type Props = {
   children: ReactNode;
-}
+};
 
 const BaseLayout: FunctionComponent<Props> = ({ children }) => {
   return (
