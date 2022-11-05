@@ -6,14 +6,23 @@ import {
   useState,
 } from 'react';
 
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { Contract, providers } from 'ethers';
+
+export type Web3State = {
+  ethereum?: MetaMaskInpageProvider;
+  provider?: providers.Web3Provider;
+  contract?: Contract;
+};
+
 type Web3ProviderProps = {
   children: ReactNode;
 };
 
-const Web3Context = createContext<any>(null);
+const Web3Context = createContext<Web3State>(null);
 
 const Web3Provider: FunctionComponent<Web3ProviderProps> = ({ children }) => {
-  const [web3Api, setWeb3Api] = useState({ test: 'Hello Provider!' });
+  const [web3Api, setWeb3Api] = useState<Web3State>(null);
 
   return (
     <Web3Context.Provider value={web3Api}>{children}</Web3Context.Provider>
