@@ -14,6 +14,6 @@ export type SetupHooks = {
 export const setupHooks: SetupHooks = (deps) => {
   return {
     useAccount: createAccountHook(deps),
-    useNetwork: createNetworkHook(deps)
+    useNetwork: createNetworkHook(deps),
   };
 };
