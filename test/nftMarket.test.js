@@ -53,5 +53,14 @@ contract('NftMarket', (accounts) => {
         'Listed items count is not 1'
       );
     });
+
+    it('should have create NFT item', async () => {
+      const nftItem = await _contract.getNftItem(1);
+
+      assert.equal(nftItem.tokenId, 1, 'Token id is not 1');
+      assert.equal(nftItem.price, _nftPrice, 'Nft price is not correct');
+      assert.equal(nftItem.creator, accounts[0], 'Cretor is not accounts[0]');
+      assert.equal(nftItem.isListed, true, 'Token id is not listed');
+    });
   });
 });

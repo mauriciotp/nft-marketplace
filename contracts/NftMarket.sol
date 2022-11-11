@@ -6,18 +6,18 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract NftMarket is ERC721URIStorage {
     using Counters for Counters.Counter;
 
-    Counters.Counter private _listedItems;
-    Counters.Counter private _tokenIds;
-
-    mapping(string => bool) private _usedTokenURIs;
-    mapping(uint256 => NftItem) private _idToNftItem;
-
     struct NftItem {
         uint256 tokenId;
         uint256 price;
         address creator;
         bool isListed;
     }
+
+    Counters.Counter private _listedItems;
+    Counters.Counter private _tokenIds;
+
+    mapping(string => bool) private _usedTokenURIs;
+    mapping(uint256 => NftItem) private _idToNftItem;
 
     event NftItemCreated(
         uint256 tokenId,
@@ -27,6 +27,18 @@ contract NftMarket is ERC721URIStorage {
     );
 
     constructor() ERC721("CreaturesNFT", "CNFT") {}
+
+    function getNftItem(uint256 tokenId) public view returns (NftItem memory) {
+        return _idToNftItem[tokenId];
+    }
+
+    function listedItemsCount() public view returns (uint256) {
+        return _listedItems.current();
+    }
+
+    function tokenURIExists(string memory tokenURI) public view returns (bool) {
+        return _usedTokenURIs[tokenURI] == true;
+    }
 
     function mintToken(string memory tokenURI, uint256 price)
         public
@@ -54,17 +66,5 @@ contract NftMarket is ERC721URIStorage {
         _idToNftItem[tokenId] = NftItem(tokenId, price, msg.sender, true);
 
         emit NftItemCreated(tokenId, price, msg.sender, true);
-    }
-
-    function getNftItem(uint256 tokenId) public view returns (NftItem memory) {
-        return _idToNftItem[tokenId];
-    }
-
-    function listedItemsCount() public view returns (uint256) {
-        return _listedItems.current();
-    }
-
-    function tokenURIExists(string memory tokenURI) public view returns (bool) {
-        return _usedTokenURIs[tokenURI] == true;
     }
 }
