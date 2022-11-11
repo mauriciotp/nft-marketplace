@@ -25,5 +25,15 @@ contract('NftMarket', (accounts) => {
         'Owner of token is not matching address[0]'
       );
     });
+
+    it('fist token should point to te correct tokenURI', async () => {
+      const actualTokenURI = await _contract.tokenURI(1);
+
+      assert.equal(
+        actualTokenURI,
+        tokenURI,
+        'TokenURI is not correctly set'
+      );
+    });
   });
 });
