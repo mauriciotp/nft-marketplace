@@ -118,7 +118,6 @@ contract('NftMarket', (accounts) => {
       const nftId2 = await _contract.tokenByIndex(1);
 
       assert.equal(nftId1.toNumber(), 1, 'Nft id is wrong');
-
       assert.equal(nftId2.toNumber(), 2, 'Nft id is wrong');
     });
   });
