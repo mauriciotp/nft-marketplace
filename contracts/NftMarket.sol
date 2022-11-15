@@ -18,11 +18,13 @@ contract NftMarket is ERC721URIStorage {
     Counters.Counter private _listedItems;
     Counters.Counter private _tokenIds;
 
-    uint256[] private _allNfts;
-
     mapping(string => bool) private _usedTokenURIs;
     mapping(uint256 => NftItem) private _idToNftItem;
 
+    mapping(address => mapping(uint256 => uint256)) private _ownedTokens;
+    mapping(uint256 => uint256) private _idToOwnedIndex;
+
+    uint256[] private _allNfts;
     mapping(uint256 => uint256) private _idToNftIndex;
 
     event NftItemCreated(
@@ -127,12 +129,22 @@ contract NftMarket is ERC721URIStorage {
         super._beforeTokenTransfer(from, to, tokenId);
 
         if (from == address(0)) {
-            _addTokenToAllTokensEnumaration(tokenId);
+            _addTokenToAllTokensEnumeration(tokenId);
+        }
+
+        if (to != from) {
+            _addTokenToOwnerEnumeration(to, tokenId);
         }
     }
 
-    function _addTokenToAllTokensEnumaration(uint256 tokenId) private {
+    function _addTokenToAllTokensEnumeration(uint256 tokenId) private {
         _idToNftIndex[tokenId] = _allNfts.length;
         _allNfts.push(tokenId);
+    }
+
+    function _addTokenToOwnerEnumeration(address to, uint256 tokenId) private {
+        uint256 length = ERC721.balanceOf(to);
+        _ownedTokens[to][length] = tokenId;
+        _idToOwnedIndex[tokenId] = length;
     }
 }
