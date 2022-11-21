@@ -183,9 +183,8 @@ contract NftMarket is ERC721URIStorage {
 
             _ownedTokens[from][tokenIndex] = lastTokenId;
             _idToOwnedIndex[lastTokenId] = tokenIndex;
-
-            delete _idToOwnedIndex[tokenId];
-            delete _ownedTokens[from][lastTokenIndex];
         }
+        delete _idToOwnedIndex[tokenId];
+        delete _ownedTokens[from][lastTokenIndex];
     }
 }
